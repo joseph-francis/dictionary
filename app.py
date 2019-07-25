@@ -10,20 +10,29 @@ def find(word):
 
     if term in data:
         return data[term]
+
+    elif term.upper() in data:
+        return data[term.upper()]
+
     elif len((get_close_matches(term, data.keys(), 1), 0.8)[0]) > 0:
         test_var = get_close_matches(term, data.keys(), 1, 0.8)[0]
-        result = input("Did you mean %s? Enter Y if yes, N if no: " % test_var)
-        if result == "Y":
-            return data[test_var]
+        val = input("Did you mean %s? Enter Y if yes, N if no: " % test_var)
+        if val == "Y":
+            values = data[test_var]
+            return values
+        elif val == "N":
+            return "We didn't understand what you queried :("
 
     return "The given word is not in my dictionary lol"
 
 
 user_input = input("Enter the search term: ")
-print(find(user_input))
+result = find(user_input)
 
+if type(result) == list:
+    for definition in result:
+        print(definition + "\n")
+else:
+    print(result)
 
 # print(SequenceMatcher(None, "rainn", "rain").ratio())  # This will compare the similarity of these two words
-
-
-
